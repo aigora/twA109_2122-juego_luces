@@ -1,11 +1,14 @@
-# [Título del trabajo]
+# JUEGO DE LUCES
 
-[Descripción breve del proyecto a realizar (2-3 frases).]
+Un juego de velocidad y reflejo basado en una secuencia de luces aleatoria que el usuario debe seguir rápidamente.
 
 ## Integrantes del equipo
 
-[Nombres, apellidos, y usuario GitHub de los integrantes del equipo.]
+Celia Torrecillas
+Qingyun Xu
+Amélie Nader Prieto (amelie-nader-prieto)
 
 ## Objetivos del trabajo
 
-[Lista de los objetivos que se persiguen con el trabajo propuesto.]
+Programar con los conocimientos de informática obtenidos en clase.
+Conocer lo más básico y fundamental de Arduino
