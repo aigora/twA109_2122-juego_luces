@@ -9,28 +9,30 @@
 
 void setup() {
   Serial.begin(9600);
-  pinMode(led1,OUTPUT);
-  pinMode(led2,OUTPUT);
-  pinMode(led3,OUTPUT);
-  pinMode(led4,OUTPUT);
+  pinMode(led1,OUTPUT);digitalWrite(led1,LOW);
+  pinMode(led2,OUTPUT);digitalWrite(led2,LOW);
+  pinMode(led3,OUTPUT);digitalWrite(led3,LOW);
+  pinMode(led4,OUTPUT);digitalWrite(led4,LOW);
 }
 
 void loop() {
   int r;
   int i=0;
-  int t=1000;
-  int leds[]={led1,led2,led3,led4};
-  r=random(0,4); // se enciende una led aleatoria de las 4
+  int t=500; // tiempo que dura la luz encendida - su valor disminuye, al aumentar la dificultad
+  int leds[]={led1,led2,led3,led4}; // leds principales del juego
+  r=random(0,4); // genera un numero aleatorio del 0 al 3
   Serial.println(r);
-  for(i=0;i<sizeof(leds)/sizeof(int);i++){
-    if(i==r){
-      digitalWrite(leds[i],HIGH);
-      delay(t);
+
+for(i=0;i<sizeof(leds)/sizeof(int);i++){
+    if(r==i){
       digitalWrite(leds[i],LOW);
+      delay(t);
+      digitalWrite(leds[i],HIGH);
     }
     else{
-      digitalWrite(leds[i],LOW);
+      digitalWrite(leds[i],HIGH);
     }
   }
+  
   delay(1000);
 }
