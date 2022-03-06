@@ -25,7 +25,7 @@ void loop() {
 
 for(i=0;i<sizeof(leds)/sizeof(int);i++){
     if(r==i){
-      digitalWrite(leds[i],LOW);
+      digitalWrite(leds[i],LOW); // low = encendido
       delay(t);
       digitalWrite(leds[i],HIGH);
     }
