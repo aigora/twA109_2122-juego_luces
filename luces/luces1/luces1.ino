@@ -9,10 +9,10 @@
 
 void setup() {
   Serial.begin(9600);
-  pinMode(led1,OUTPUT);digitalWrite(led1,LOW);
-  pinMode(led2,OUTPUT);digitalWrite(led2,LOW);
-  pinMode(led3,OUTPUT);digitalWrite(led3,LOW);
-  pinMode(led4,OUTPUT);digitalWrite(led4,LOW);
+  pinMode(led1,OUTPUT);//digitalWrite(led1,HIGH);
+  pinMode(led2,OUTPUT);//digitalWrite(led2,HIGH);
+  pinMode(led3,OUTPUT);//digitalWrite(led3,HIGH);
+  pinMode(led4,OUTPUT);//digitalWrite(led4,HIGH);
 }
 
 void loop() {
