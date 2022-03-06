@@ -18,12 +18,19 @@ void setup() {
 void loop() {
   int r;
   int i=0;
+  int t=1000;
   int leds[]={led1,led2,led3,led4};
   r=random(0,4); // se enciende una led aleatoria de las 4
   Serial.println(r);
   for(i=0;i<sizeof(leds)/sizeof(int);i++){
     if(i==r){
       digitalWrite(leds[i],HIGH);
+      delay(t);
+      digitalWrite(leds[i],LOW);
+    }
+    else{
+      digitalWrite(leds[i],LOW);
     }
   }
+  delay(1000);
 }
