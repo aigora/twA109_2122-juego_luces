@@ -23,8 +23,10 @@ void setup() {
 void loop() {
   int r;
   int i=0;
+  int n=5; // numero de luces en cada secuencia
   int t=500; // tiempo que dura la luz encendida - su valor disminuye, al aumentar la dificultad
   int leds[]={led1,led2,led3,led4}; // leds principales del juego
+  int secuencia[]={0,0,0,0,0};
   r=random(0,4); // genera un numero aleatorio del 0 al 3
   Serial.println(r);
 
