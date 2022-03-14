@@ -4,9 +4,9 @@ Un juego de velocidad y reflejo basado en una secuencia de luces aleatoria que e
 
 ## Integrantes del equipo
 
-Celia Torrecillas
+Celia Torrecillas (Celia-t22)
 
-Qingyun Xu
+Qingyun Xu (QINGYUN-XU)
 
 Amélie Nader Prieto (amelie-nader-prieto)
 
