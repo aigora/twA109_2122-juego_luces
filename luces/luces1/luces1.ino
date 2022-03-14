@@ -32,16 +32,23 @@ void loop() {
   r=random(0,4); // genera un numero aleatorio del 0 al 3
   Serial.println(r);
 
-for(i=0;i<sizeof(leds)/sizeof(int);i++){ // bucle que enciende una lucecita de las 4, se repite infinitas veces
-    if(r==i){
-      digitalWrite(leds[i],LOW); // low = encendido
-      delay(t);
-      digitalWrite(leds[i],HIGH);
+  for(j=0;j<n;j++){ // bucle que genera la secuencia, se repite infinitas veces
+    
+    for(i=0;i<sizeof(leds)/sizeof(int);i++){ // bucle que enciende una lucecita de las 4, se repite 5 veces dentro de este
+      if(r==i){
+        digitalWrite(leds[i],LOW); // low = encendido
+        delay(t);
+        digitalWrite(leds[i],HIGH);
+
+//        secuencia[j]=(i+1);
+//        Serial.println(secuencia[j]);
+      }
+      else{
+        digitalWrite(leds[i],HIGH);
+      }
     }
-    else{
-      digitalWrite(leds[i],HIGH);
-    }
+    
   }
-  
+
   delay(pausa);
 }
