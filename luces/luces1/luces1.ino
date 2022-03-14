@@ -22,15 +22,17 @@ void setup() {
 
 void loop() {
   int r;
-  int i=0;
+  int i=0; // contador para encender una luz
+  int j=0; // contador para secuencia de luces
   int n=5; // numero de luces en cada secuencia
   int t=500; // tiempo que dura la luz encendida - su valor disminuye, al aumentar la dificultad
-  int leds[]={led1,led2,led3,led4}; // leds principales del juego
+  int pausa=1000; // tiempo de pausa entre secuencias
+  int leds[]={led1,led2,led3,led4};
   int secuencia[]={0,0,0,0,0};
   r=random(0,4); // genera un numero aleatorio del 0 al 3
   Serial.println(r);
 
-for(i=0;i<sizeof(leds)/sizeof(int);i++){
+for(i=0;i<sizeof(leds)/sizeof(int);i++){ // bucle que enciende una lucecita de las 4, se repite infinitas veces
     if(r==i){
       digitalWrite(leds[i],LOW); // low = encendido
       delay(t);
@@ -41,5 +43,5 @@ for(i=0;i<sizeof(leds)/sizeof(int);i++){
     }
   }
   
-  delay(1000);
+  delay(pausa);
 }
