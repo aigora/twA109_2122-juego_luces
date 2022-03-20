@@ -34,7 +34,7 @@ void loop() {
 
   for(j=0;j<n;j++){ // bucle que genera la secuencia, se repite infinitas veces
 
-    r=random(0,4);
+    r=random(0,4); // determina cuál led se enciende cada vez
     
     for(i=0;i<sizeof(leds)/sizeof(int);i++){ // bucle que enciende una lucecita de las 4, se repite 5 veces dentro de este
       if(r==i){
