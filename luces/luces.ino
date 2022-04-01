@@ -2,10 +2,12 @@
  * Este código se encarga de la secuencia aleatoria de lucecitas
 */
 
-#define led1 9 // rojo
-#define led2 10 // verde
-#define led3 11 // azul
-#define led4 12 // blanco
+// leds: rojo, verde, azul, blanco
+
+#define led1 9
+#define led2 10
+#define led3 11
+#define led4 12
 
 void setup() {
   Serial.begin(9600);
