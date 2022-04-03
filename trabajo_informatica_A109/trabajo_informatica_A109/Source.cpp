@@ -5,12 +5,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
+#include <string.h>
 #include "SerialClass/SerialClass.h"
+
+#define DIM 5
 
 void verificar(Serial*, char*);
 void menu(void);
 void ficheros(void);
-void control_luces(void);
+void control_luces(Serial*,int*,int*);
+int compara(int*, int*);
 
 void main() {
 
@@ -26,12 +30,10 @@ void main() {
 
 	menu();
 	ficheros();
-	control_luces();
 
 }
 
 /* Verifica que se ha establecido correctamente la conexión */
-
 void verificar(Serial*Arduino, char*puerto) {
 	if (Arduino->IsConnected()) {
 		;
@@ -55,6 +57,15 @@ void ficheros(void) {
 
 /* Gestión de las secuencias de luces, comparación de vectores */
 /* Desarrollado por Amélie Nader */
-void control_luces(void) {
-	;
+void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador) {
+	int s=compara(secuencia_luces, secuencia_jugador);
+}
+
+/* Compara secuencias, devuelve 1 si son iguales, 0 si distintas */
+int compara(int* s1, int* s2) {
+	int i;
+	for (i = 0; i < DIM; i++) {
+		if (s1[i] != s2[i]) return 0;
+	}
+	return 1;
 }

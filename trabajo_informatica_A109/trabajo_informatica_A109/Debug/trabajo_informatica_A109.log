@@ -1,4 +1,4 @@
 ﻿  Source.cpp
-C:\Users\LENOVO\Documents\GitHub\twA109_2122-juego_luces\trabajo_informatica_A109\trabajo_informatica_A109\Source.cpp(15,13): warning C4326: el tipo de valor devuelto de 'main' debe ser 'int' en lugar de 'void'
-C:\Users\LENOVO\Documents\GitHub\twA109_2122-juego_luces\trabajo_informatica_A109\trabajo_informatica_A109\Source.cpp(22,6): warning C4101: 'opcion_menu': variable local sin referencia
+C:\Users\LENOVO\Documents\GitHub\twA109_2122-juego_luces\trabajo_informatica_A109\trabajo_informatica_A109\Source.cpp(19,13): warning C4326: el tipo de valor devuelto de 'main' debe ser 'int' en lugar de 'void'
+C:\Users\LENOVO\Documents\GitHub\twA109_2122-juego_luces\trabajo_informatica_A109\trabajo_informatica_A109\Source.cpp(26,6): warning C4101: 'opcion_menu': variable local sin referencia
   trabajo_informatica_A109.vcxproj -> C:\Users\LENOVO\Documents\GitHub\twA109_2122-juego_luces\trabajo_informatica_A109\Debug\trabajo_informatica_A109.exe
