@@ -31,8 +31,6 @@ void loop() {
   int pausa=1000; // tiempo de pausa entre secuencias
   int leds[]={led1,led2,led3,led4};
   int secuencia[]={0,0,0,0,0};
-//  r=random(0,4); // genera un numero aleatorio del 0 al 3
-//  Serial.println(r);
 
   for(j=0;j<n;j++){ // bucle que genera la secuencia, se repite infinitas veces
 
