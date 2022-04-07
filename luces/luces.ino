@@ -11,6 +11,9 @@
 
 void setup() {
   Serial.begin(9600);
+  while(!Serial){
+    ;
+  }
   pinMode(led1,OUTPUT);
   pinMode(led2,OUTPUT);
   pinMode(led3,OUTPUT);
@@ -24,9 +27,9 @@ void setup() {
 
 void loop() {
   int r;
-  int i=0; // contador para encender una luz
-  int j=0; // contador para secuencia de luces
-  int n=5; // numero de luces en cada secuencia
+  int i=0;
+  int j=0;
+  int n=5;
   int t=500; // tiempo que dura la luz encendida - su valor disminuye, al aumentar la dificultad
   int pausa=1000; // tiempo de pausa entre secuencias
   int leds[]={led1,led2,led3,led4};
@@ -34,11 +37,11 @@ void loop() {
 
   for(j=0;j<n;j++){ // bucle que genera la secuencia, se repite infinitas veces
 
-    r=random(0,4); // determina cuál led se enciende cada vez
+    r=random(0,4);
     
     for(i=0;i<sizeof(leds)/sizeof(int);i++){ // bucle que enciende una lucecita de las 4, se repite 5 veces dentro de este
       if(r==i){
-        digitalWrite(leds[i],LOW); // low = encendido
+        digitalWrite(leds[i],LOW);
         delay(t);
         digitalWrite(leds[i],HIGH);
         delay(100);
