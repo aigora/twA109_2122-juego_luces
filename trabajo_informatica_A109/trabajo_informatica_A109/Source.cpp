@@ -1,5 +1,5 @@
 
-/* Este código sirve para establecer la comunicación por cable con Arduino
+/* Este cï¿½digo sirve para establecer la comunicaciï¿½n por cable con Arduino
  y contiene las principales funciones de nuestro proyecto*/
 
 #include <stdio.h>
@@ -9,12 +9,15 @@
 #include "SerialClass/SerialClass.h"
 
 #define DIM 5
+#define MAX_BUFFER 300
+#define PAUSA_MS 500
 
-void verificar(Serial*, char*);
 void menu(void);
 void ficheros(void);
 void control_luces(Serial*,int*,int*);
 int compara(int*, int*);
+int* get_secuencia(Serial*);
+int*get_secuencia_jugador(void);
 
 void main() {
 
@@ -26,38 +29,30 @@ void main() {
 	int opcion_menu;
 	Arduino = new Serial(puerto);
 
-	verificar(Arduino, puerto);
+	int secuencia_luces[DIM],secuencia_jugador[DIM];
 
 	menu();
 	ficheros();
 
 }
 
-/* Verifica que se ha establecido correctamente la conexión */
-void verificar(Serial*Arduino, char*puerto) {
-	if (Arduino->IsConnected()) {
-		;
-	}
-	else {
-		printf("\nNo se ha podido conectar con el Arduino\n");
-	}
-}
-
-/* Menú principal de la aplicación */
+/* Menï¿½ principal de la aplicaciï¿½n */
 /* Desarrollado por Qingyun Xu */
 void menu(void) {
 	;
 }
 
-/* Gestión de los datos de nombre y puntuación de jugadores */
+/* Gestiï¿½n de los datos de nombre y puntuaciï¿½n de jugadores */
 /* Desarrollado por Celia Torrecillas */
 void ficheros(void) {
 	;
 }
 
-/* Gestión de las secuencias de luces, comparación de vectores */
-/* Desarrollado por Amélie Nader */
+/* Gestiï¿½n de las secuencias de luces, comparaciï¿½n de vectores */
+/* Desarrollado por Amï¿½lie Nader */
 void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador) {
+	secuencia_luces=get_secuencia(Arduino);
+	secuencia_jugador=get_secuencia_jugador();
 	int s=compara(secuencia_luces, secuencia_jugador);
 }
 
@@ -68,4 +63,40 @@ int compara(int* s1, int* s2) {
 		if (s1[i] != s2[i]) return 0;
 	}
 	return 1;
+}
+
+/* funciÃ³n que obtiene el valor de la secuencia de luces desde el arduino */
+/* envÃ­a un mensaje por puerto serie, el Arduino devuelve vector tipo int */
+int*get_secuencia(Serial*Arduino){
+	char*mensaje_enviar="GET_SECUENCIA\n";
+	char*mensaje_recibido;
+	Arduino->WriteData(mensaje_enviar,sizeof(char)*MAX_BUFFER);
+	Sleep(PAUSA_MS);
+	Arduino->ReadData(mensaje_recibido,sizeof(char)*MAX_BUFFER-1);
+}
+
+/* crea un vector a partir de las teclas pulsadas por el jugador */
+int*get_secuencia_jugador(void){
+	int s_jugador[DIM];
+	int i;
+	char t;
+	for(i=0;i<DIM;i++){
+		scanf_s("%c",&t);
+		if(t=='A'||t=='a'){
+			s_jugador[i]=1;
+		}
+		if(t=='W'||t=='w'){
+			s_jugador[i]=2;
+		}
+		if(t=='S'||t=='s'){
+			s_jugador[i]=3;
+		}
+		if(t=='D'||t=='d'){
+			s_jugador[i]=4;
+		}
+		else{
+			s_jugador[i]=0;
+		}
+	}
+	return s_jugador;
 }
