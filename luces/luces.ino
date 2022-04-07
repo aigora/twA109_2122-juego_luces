@@ -64,7 +64,6 @@ void loop() {
       str="VALORES: ";
       for(i=0;i<sizeof(secuencia)/sizeof(int);i++){
         str.concat(secuencia[i]);
-        str.concat(" ");
       }
       Serial.println(str);
     }

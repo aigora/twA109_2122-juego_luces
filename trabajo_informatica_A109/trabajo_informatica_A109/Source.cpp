@@ -85,7 +85,16 @@ char*get_secuencia(Serial*Arduino){
 
 /* convierte el vector enviado por arduino en un vector numérico con los valores */
 int*transform_secuencia(char*mensaje_recibido){
-	;
+	int k=0;
+	int s[DIM];
+	for(k=0;k<sizeof(mensaje_recibido)/sizeof(char);k++){
+		if(mensaje_recibido[k]=='1') s[k]=1;
+		if(mensaje_recibido[k]=='2') s[k]=2;
+		if(mensaje_recibido[k]=='3') s[k]=3;
+		if(mensaje_recibido[k]=='4') s[k]=4;
+		else s[k]=0;
+	}
+	return s;
 }
 
 /* crea un vector a partir de las teclas pulsadas por el jugador */
