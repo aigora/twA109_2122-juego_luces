@@ -30,8 +30,8 @@ void loop() {
   int i=0;
   int j=0;
   int n=5;
-  int t=500; // tiempo que dura la luz encendida - su valor disminuye, al aumentar la dificultad
-  int pausa=1000; // tiempo de pausa entre secuencias
+  int t=500;
+  int pausa=1000;
   int leds[]={led1,led2,led3,led4};
   int secuencia[]={0,0,0,0,0};
 
@@ -46,8 +46,7 @@ void loop() {
         digitalWrite(leds[i],HIGH);
         delay(100);
 
-//        secuencia[j]=(i+1);
-//        Serial.println(secuencia[j]);
+        secuencia[j]=(i+1);
       }
       
       else{
@@ -56,5 +55,18 @@ void loop() {
 
     }
   }
+
+  // envío de los datos de la secuencia al puerto serie:
+  if(Serial.available()<0){
+    String str=Serial.readStringUntil('\n');
+
+    if(str.compareTo("GET_SECUENCIA")==0){
+      Serial.write(secuencia[sizeof(secuencia)/sizeof(leds)]);
+    }
+    else{
+      Serial.println("COMANDO DESCONOCIDO");
+    }
+  }
+  
   delay(pausa);
 }
