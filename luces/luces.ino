@@ -61,7 +61,12 @@ void loop() {
     String str=Serial.readStringUntil('\n');
 
     if(str.compareTo("GET_SECUENCIA")==0){
-      Serial.write(secuencia[sizeof(secuencia)/sizeof(leds)]);
+      str="VALORES: ";
+      for(i=0;i<sizeof(secuencia)/sizeof(int);i++){
+        str.concat(secuencia[i]);
+        str.concat(" ");
+      }
+      Serial.println(str);
     }
     else{
       Serial.println("COMANDO DESCONOCIDO");
