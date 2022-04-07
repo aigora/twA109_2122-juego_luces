@@ -12,10 +12,11 @@
 #define MAX_BUFFER 300
 #define PAUSA_MS 500
 
-void menu(void);
+void menu(int);
 void ficheros(void);
 void control_luces(Serial*,int*,int*);
 int compara(int*, int*);
+int puntaje(int);
 int* get_secuencia(Serial*);
 int*get_secuencia_jugador(void);
 
@@ -31,14 +32,11 @@ void main() {
 
 	int secuencia_luces[DIM],secuencia_jugador[DIM];
 
-	menu();
-	ficheros();
-
 }
 
 /* Men� principal de la aplicaci�n */
 /* Desarrollado por Qingyun Xu */
-void menu(void) {
+void menu(int opc_menu) {
 	;
 }
 
@@ -48,12 +46,13 @@ void ficheros(void) {
 	;
 }
 
-/* Gesti�n de las secuencias de luces, comparaci�n de vectores */
+/* Gestiona las secuencias de luces en cada nivel */
 /* Desarrollado por Am�lie Nader */
 void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador) {
 	secuencia_luces=get_secuencia(Arduino);
 	secuencia_jugador=get_secuencia_jugador();
 	int s=compara(secuencia_luces, secuencia_jugador);
+	int puntuacion_nivel=puntaje(s);
 }
 
 /* Compara secuencias, devuelve 1 si son iguales, 0 si distintas */
@@ -65,8 +64,15 @@ int compara(int* s1, int* s2) {
 	return 1;
 }
 
-/* función que obtiene el valor de la secuencia de luces desde el arduino */
-/* envía un mensaje por puerto serie, el Arduino devuelve vector tipo int */
+/* toma el resultado de la función comparar, devuelve un número de puntos si es 1 y 0 si no */
+int puntaje(int s){
+	int p=100;
+	if(s==1) return p;
+	return 0;
+}
+
+/* función que obtiene el valor de la secuencia de luces desde el arduino,
+ envía un mensaje por puerto serie, el Arduino devuelve vector tipo int */
 int*get_secuencia(Serial*Arduino){
 	char*mensaje_enviar="GET_SECUENCIA\n";
 	char*mensaje_recibido;
@@ -80,20 +86,13 @@ int*get_secuencia_jugador(void){
 	int s_jugador[DIM];
 	int i;
 	char t;
+	printf("\n repita la secuencia de luces en el teclado . . . \n");
 	for(i=0;i<DIM;i++){
 		scanf_s("%c",&t);
-		if(t=='A'||t=='a'){
-			s_jugador[i]=1;
-		}
-		if(t=='W'||t=='w'){
-			s_jugador[i]=2;
-		}
-		if(t=='S'||t=='s'){
-			s_jugador[i]=3;
-		}
-		if(t=='D'||t=='d'){
-			s_jugador[i]=4;
-		}
+		if(t=='A'||t=='a') s_jugador[i]=1;
+		if(t=='W'||t=='w') s_jugador[i]=2;
+		if(t=='S'||t=='s') s_jugador[i]=3;
+		if(t=='D'||t=='d') s_jugador[i]=4;
 		else{
 			s_jugador[i]=0;
 		}
