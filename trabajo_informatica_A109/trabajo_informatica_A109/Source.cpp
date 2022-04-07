@@ -17,7 +17,8 @@ void ficheros(void);
 void control_luces(Serial*,int*,int*);
 int compara(int*, int*);
 int puntaje(int);
-int* get_secuencia(Serial*);
+char* get_secuencia(Serial*);
+int*transform_secuencia(char*);
 int*get_secuencia_jugador(void);
 
 void main() {
@@ -49,7 +50,8 @@ void ficheros(void) {
 /* Gestiona las secuencias de luces en cada nivel */
 /* Desarrollado por Am�lie Nader */
 void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador) {
-	secuencia_luces=get_secuencia(Arduino);
+	char*mensaje_recibido=get_secuencia(Arduino);
+	secuencia_luces=transform_secuencia(mensaje_recibido);
 	secuencia_jugador=get_secuencia_jugador();
 	int s=compara(secuencia_luces, secuencia_jugador);
 	int puntuacion_nivel=puntaje(s);
@@ -72,13 +74,18 @@ int puntaje(int s){
 }
 
 /* función que obtiene el valor de la secuencia de luces desde el arduino,
- envía un mensaje por puerto serie, el Arduino devuelve vector tipo int */
-int*get_secuencia(Serial*Arduino){
+ envía un mensaje por puerto serie, el Arduino devuelve un mensaje con los valores */
+char*get_secuencia(Serial*Arduino){
 	char*mensaje_enviar="GET_SECUENCIA\n";
 	char*mensaje_recibido;
 	Arduino->WriteData(mensaje_enviar,sizeof(char)*MAX_BUFFER);
 	Sleep(PAUSA_MS);
 	Arduino->ReadData(mensaje_recibido,sizeof(char)*MAX_BUFFER-1);
+}
+
+/* convierte el vector enviado por arduino en un vector numérico con los valores */
+int*transform_secuencia(char*mensaje_recibido){
+	;
 }
 
 /* crea un vector a partir de las teclas pulsadas por el jugador */
