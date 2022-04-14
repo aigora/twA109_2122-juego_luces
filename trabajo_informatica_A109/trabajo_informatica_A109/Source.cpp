@@ -12,7 +12,8 @@
 
 #define DIM 5
 #define MAX_BUFFER 300
-#define PAUSA_MS 5000
+#define PAUSA_MS 500
+#define PAUSA 5000
 
 void menu(int);
 void ficheros(void);
@@ -26,16 +27,21 @@ int*get_secuencia_jugador(void);
 void main() {
 
 	Serial* Arduino;
-	char puerto[] = "COM3";
+	char*puerto=(char*)malloc(5*sizeof(char));
+	puerto = "COM3";
 
 	setlocale(LC_ALL, "es-ES");
 
 	int*opcion_menu=(int*)malloc(sizeof(int));
 	Arduino = new Serial(puerto);
 
-	int secuencia_luces[DIM],secuencia_jugador[DIM];
+	int*secuencia_luces=(int*)malloc(DIM*sizeof(int));
+	int*secuencia_jugador=(int*)malloc(DIM*sizeof(int));
 
+	free(puerto);
 	free(opcion_menu);
+	free(secuencia_luces);
+	free(secuencia_jugador);
 
 }
 
@@ -65,6 +71,8 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador) {
 	
 		*s=compara(secuencia_luces, secuencia_jugador);
 		*puntuacion_nivel=puntaje(*s);
+
+		Sleep(PAUSA);
 	}
 
 	free(s);
