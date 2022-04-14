@@ -31,7 +31,7 @@ void loop() {
   int j=0;
   int n=5;
   int t=500;
-  int pausa=1000;
+  int pausa=5000; // tiempo entre secuencias
   int leds[]={led1,led2,led3,led4};
   int secuencia[]={0,0,0,0,0};
 
