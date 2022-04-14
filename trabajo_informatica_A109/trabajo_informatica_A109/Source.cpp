@@ -7,11 +7,12 @@
 #include <locale.h>
 #include <string.h>
 #include <malloc.h>
+#include <dos.h>
 #include "SerialClass/SerialClass.h"
 
 #define DIM 5
 #define MAX_BUFFER 300
-#define PAUSA_MS 500
+#define PAUSA_MS 5000
 
 void menu(int);
 void ficheros(void);
@@ -53,11 +54,22 @@ void ficheros(void) {
 /* Gestiona las secuencias de luces en cada nivel */
 /* Desarrollado por Am�lie Nader */
 void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador) {
-	char*mensaje_recibido=get_secuencia(Arduino);
-	secuencia_luces=transform_secuencia(mensaje_recibido);
-	secuencia_jugador=get_secuencia_jugador();
-	int s=compara(secuencia_luces, secuencia_jugador);
-	int puntuacion_nivel=puntaje(s);
+	int*s=(int*)malloc(sizeof(int));
+	int*puntuacion_nivel=(int*)malloc(sizeof(int));
+	char*mensaje_recibido;
+
+	while(Arduino->IsConnected()==TRUE){
+		mensaje_recibido=get_secuencia(Arduino);
+		secuencia_luces=transform_secuencia(mensaje_recibido);
+		secuencia_jugador=get_secuencia_jugador();
+	
+		*s=compara(secuencia_luces, secuencia_jugador);
+		*puntuacion_nivel=puntaje(*s);
+	}
+
+	free(s);
+	free(puntuacion_nivel);
+	free(mensaje_recibido);
 }
 
 /* Compara secuencias, devuelve 1 si son iguales, 0 si distintas */
