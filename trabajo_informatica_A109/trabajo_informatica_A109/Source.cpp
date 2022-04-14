@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <string.h>
+#include <malloc.h>
 #include "SerialClass/SerialClass.h"
 
 #define DIM 5
@@ -28,10 +29,12 @@ void main() {
 
 	setlocale(LC_ALL, "es-ES");
 
-	int opcion_menu;
+	int*opcion_menu=(int*)malloc(sizeof(int));
 	Arduino = new Serial(puerto);
 
 	int secuencia_luces[DIM],secuencia_jugador[DIM];
+
+	free(opcion_menu);
 
 }
 
@@ -59,10 +62,14 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador) {
 
 /* Compara secuencias, devuelve 1 si son iguales, 0 si distintas */
 int compara(int* s1, int* s2) {
-	int i;
-	for (i = 0; i < DIM; i++) {
-		if (s1[i] != s2[i]) return 0;
+	int*i=(int*)malloc(sizeof(int));
+	for (*i = 0; *i < DIM; *i++) {
+		if (s1[*i] != s2[*i]){
+			free(i);
+			return 0;
+		}
 	}
+	free(i);
 	return 1;
 }
 
@@ -85,32 +92,33 @@ char*get_secuencia(Serial*Arduino){
 
 /* convierte el vector enviado por arduino en un vector numérico con los valores */
 int*transform_secuencia(char*mensaje_recibido){
-	int k=0;
+	int*k=(int*)malloc(sizeof(int));
 	int s[DIM];
-	for(k=0;k<sizeof(mensaje_recibido)/sizeof(char);k++){
-		if(mensaje_recibido[k]=='1') s[k]=1;
-		if(mensaje_recibido[k]=='2') s[k]=2;
-		if(mensaje_recibido[k]=='3') s[k]=3;
-		if(mensaje_recibido[k]=='4') s[k]=4;
-		else s[k]=0;
+	for(*k=0;*k<sizeof(mensaje_recibido)/sizeof(char);*k++){
+		if(mensaje_recibido[*k]=='1') s[*k]=1;
+		if(mensaje_recibido[*k]=='2') s[*k]=2;
+		if(mensaje_recibido[*k]=='3') s[*k]=3;
+		if(mensaje_recibido[*k]=='4') s[*k]=4;
+		else s[*k]=0;
 	}
+	free(k);
 	return s;
 }
 
 /* crea un vector a partir de las teclas pulsadas por el jugador */
 int*get_secuencia_jugador(void){
 	int s_jugador[DIM];
-	int i;
+	int*i=(int*)malloc(sizeof(int));
 	char t;
 	printf("\n repita la secuencia de luces en el teclado . . . \n");
-	for(i=0;i<DIM;i++){
+	for(*i=0;*i<DIM;*i++){
 		scanf_s("%c",&t);
-		if(t=='A'||t=='a') s_jugador[i]=1;
-		if(t=='W'||t=='w') s_jugador[i]=2;
-		if(t=='S'||t=='s') s_jugador[i]=3;
-		if(t=='D'||t=='d') s_jugador[i]=4;
+		if(t=='A'||t=='a') s_jugador[*i]=1;
+		if(t=='W'||t=='w') s_jugador[*i]=2;
+		if(t=='S'||t=='s') s_jugador[*i]=3;
+		if(t=='D'||t=='d') s_jugador[*i]=4;
 		else{
-			s_jugador[i]=0;
+			s_jugador[*i]=0;
 		}
 	}
 	return s_jugador;
