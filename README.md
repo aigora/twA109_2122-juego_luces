@@ -6,9 +6,10 @@ Un juego de velocidad y reflejo basado en una secuencia de luces aleatoria que e
 
 Las luces roja, verde, azul y blanca se encenderán en orden aleatorio formando una secuencia de 5. Tendrás unos segundos para repetirla. Pulsa las teclas correspondientes en el mismo orden para tener la máxima puntuación.
 
-La secuencia será más rápida cada vez, así que debes mantener el ritmo. Si en 5 segundos no has acertado, termina el juego.
+La secuencia será más rápida cada vez, así que debes mantener el ritmo. Si en 5 segundos no has introducido la secuencia o se introduce incorrectamentre, termina el juego. 
 
-Introduce tu nombre una vez finalizada la partida para que se guarden tus puntuaciones.
+Introduce tu nombre al inicio de la partida para que se guarden tus puntuaciones.
+Tambien es posible dar de baja a un jugador, ver la lista de jugadores y modificar un nombre.
 
 ## Integrantes del equipo
 
