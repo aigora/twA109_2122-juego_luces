@@ -93,7 +93,7 @@ int compara(int* s1, int* s2) {
 	return 1;
 }
 
-/* toma el resultado de la función comparar, devuelve un número de puntos si es 1 y 0 si no */
+/* toma el resultado de la función comparar, devuelve puntos si es 1 */
 int puntaje(int s){
 	int p=100;
 	if(s==1) return p;
@@ -103,11 +103,18 @@ int puntaje(int s){
 /* función que obtiene el valor de la secuencia de luces desde el arduino,
  envía un mensaje por puerto serie, el Arduino devuelve un mensaje con los valores */
 char*get_secuencia(Serial*Arduino){
-	char*mensaje_enviar="GET_SECUENCIA\n";
+
+	char*mensaje_enviar=(char*)malloc(MAX_BUFFER*sizeof(char));
+	mensaje_enviar="GET_SECUENCIA\n";
 	char*mensaje_recibido;
+
 	Arduino->WriteData(mensaje_enviar,sizeof(char)*MAX_BUFFER);
 	Sleep(PAUSA_MS);
 	Arduino->ReadData(mensaje_recibido,sizeof(char)*MAX_BUFFER-1);
+
+	free(mensaje_enviar);
+	
+	return mensaje_recibido;
 }
 
 /* convierte el vector enviado por arduino en un vector numérico con los valores */
