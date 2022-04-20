@@ -14,12 +14,14 @@
 #define MAX_BUFFER 300
 #define PAUSA_MS 500
 #define PAUSA 5000
+#define PUNTOS 100
 
 void menu(int);
 void ficheros(void);
-void control_luces(Serial*,int*,int*);
+void control_luces(Serial*,int*,int*,int);
 int compara(int*, int*);
 int puntaje(int);
+bool game_over(int);
 char* get_secuencia(Serial*);
 int*transform_secuencia(char*);
 int*get_secuencia_jugador(void);
@@ -37,6 +39,14 @@ void main() {
 
 	int*secuencia_luces=(int*)malloc(DIM*sizeof(int));
 	int*secuencia_jugador=(int*)malloc(DIM*sizeof(int));
+	int*puntuacion_total=(int*)malloc(sizeof(int));
+
+	*puntuacion_total=0; // puntos iniciales
+
+	/* el juego se ejecuta indefinidamente hasta que el jugador falle */
+	do{
+		control_luces(Arduino,secuencia_luces,secuencia_jugador,*puntuacion_total);
+	}while(!game_over);
 
 	free(puerto);
 	free(opcion_menu);
@@ -59,7 +69,7 @@ void ficheros(void) {
 
 /* Gestiona las secuencias de luces en cada nivel */
 /* Desarrollado por Am�lie Nader */
-void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador) {
+void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int puntuacion_total) {
 	int*s=(int*)malloc(sizeof(int));
 	int*puntuacion_nivel=(int*)malloc(sizeof(int));
 	char*mensaje_recibido;
@@ -70,7 +80,15 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador) {
 		secuencia_jugador=get_secuencia_jugador();
 	
 		*s=compara(secuencia_luces, secuencia_jugador);
-		*puntuacion_nivel=puntaje(*s);
+
+		if(game_over(*s)){
+			break;
+		} // termina el juego
+
+		else {
+			*puntuacion_nivel=puntaje(*s);
+			puntuacion_total+=*puntuacion_nivel;
+		} // consigue puntos por acertar
 
 		Sleep(PAUSA);
 	}
@@ -95,9 +113,14 @@ int compara(int* s1, int* s2) {
 
 /* toma el resultado de la función comparar, devuelve puntos si es 1 */
 int puntaje(int s){
-	int p=100;
-	if(s==1) return p;
-	return 0;
+	if(s==1) return PUNTOS;
+	else return 0;
+}
+
+/* toma el resultado de la función comparar, termina el juego si es 0 */
+bool game_over(int s){
+	if(s==0) return true;
+	else return false;
 }
 
 /* función que obtiene el valor de la secuencia de luces desde el arduino,
