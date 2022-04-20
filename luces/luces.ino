@@ -31,11 +31,12 @@ void loop() {
   int j=0;
   int n=5;
   int t=500;
-  int pausa=5000; // tiempo entre secuencias
+  int pausa=5000; // tiempo entre niveles
   int leds[]={led1,led2,led3,led4};
   int secuencia[]={0,0,0,0,0};
 
-  for(j=0;j<n;j++){ // bucle que genera la secuencia, se repite infinitas veces
+  /* bucle que genera la secuencia, se repite infinitas veces */
+  for(j=0;j<n;j++){
 
     r=random(0,4);
     
@@ -54,9 +55,9 @@ void loop() {
       }
 
     }
-  }
+  } // fin de la secuencia de luces
 
-  // envío de los datos de la secuencia al puerto serie:
+  /* envío de los datos de la secuencia al puerto serie: */
   if(Serial.available()<0){
     String str=Serial.readStringUntil('\n');
 
@@ -71,6 +72,8 @@ void loop() {
       Serial.println("COMANDO DESCONOCIDO");
     }
   }
-  
+
+  /* espera 5 segundos hasta iniciar el siguiente nivel */
   delay(pausa);
+  
 }
