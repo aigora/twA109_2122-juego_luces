@@ -57,8 +57,32 @@ void main() {
 
 /* Men� principal de la aplicaci�n */
 /* Desarrollado por Qingyun Xu */
-void menu(int opc_menu) {
-	;
+void menu(int opc_menu)
+{
+printf("1.Dar de alta a un jugador: ");
+	printf("\n2.Dar de baja a un jugador: ");
+	printf("\n3.Jugadores que van a jugar: ");
+	printf("\n4.Modificar el nombre de algún jugador: ");
+	printf("\n5.Comenzar a jugar");
+
+	printf("\nPulsar alguna de las siguientes opciones: ");
+	scanf_s("%d", &opc_menu);
+	switch (opc_menu)
+	{
+	case 1:
+		printf ("\nEscribe el nombre del jugador:")
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	case 4:
+		break;
+	case 5:
+		break;
+
+	}
+
 }
 
 /* Gesti�n de los datos de nombre y puntuaci�n de jugadores */
