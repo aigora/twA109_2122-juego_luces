@@ -15,8 +15,22 @@
 #define PAUSA_MS 500
 #define PAUSA 5000
 #define PUNTOS 100
+#define NUM 50
+
+
+struct elemento
+{
+	char nombre_jugador[NUM];
+	int numero_jugador;
+	struct elemento* siguiente;
+
+};
+typedef struct elemento nodo;
+
 
 void menu(int);
+int menu(void);
+nodo* alta(nodo*);
 void ficheros(void);
 void control_luces(Serial*,int*,int*,int);
 int compara(int*, int*);
@@ -59,18 +73,16 @@ void main() {
 /* Desarrollado por Qingyun Xu */
 void menu(int opc_menu)
 {
-printf("1.Dar de alta a un jugador: ");
-	printf("\n2.Dar de baja a un jugador: ");
-	printf("\n3.Jugadores que van a jugar: ");
-	printf("\n4.Modificar el nombre de algún jugador: ");
-	printf("\n5.Comenzar a jugar");
-
-	printf("\nPulsar alguna de las siguientes opciones: ");
-	scanf_s("%d", &opc_menu);
-	switch (opc_menu)
+nodo* cabecera = NULL;
+	int opc;
+	do
 	{
+		opc = menu();
+		switch (opc)
+		
+		{
 	case 1:
-		printf ("\nEscribe el nombre del jugador:")
+		cabecera = alta(cabecera);
 		break;
 	case 2:
 		break;
@@ -80,10 +92,56 @@ printf("1.Dar de alta a un jugador: ");
 		break;
 	case 5:
 		break;
+	case 6:
+		printf("\n Programa finalizado\n");
+		break;
+	default:
+		printf("\n Opcion incorrecta. Elija otra opcion.\n");
+		break;
 
-	}
+		}
+
+	} while (opc != 6);
+	
+	return 0;
+}
+int menu(void)
+{
+	int opc_menu;
+	char intro;
+
+	printf("1.Dar de alta a un jugador: ");
+	printf("\n2.Dar de baja a un jugador: ");
+	printf("\n3.Jugadores que hay: ");
+	printf("\n4.Modificar el nombre de algún jugador: ");
+	printf("\n5.Comenzar a jugar");
+	printf("\n6.Salir del menu ");
+
+	printf("\nPulsar alguna de las siguientes opciones: ");
+	scanf_s("%d", &opc_menu);
+	scanf_s("%c", &intro);
+	return opc_menu;
 
 }
+
+nodo* alta(nodo* cabecera)
+{
+	nodo* mem;
+	
+	mem = (nodo*) malloc(sizeof(nodo) *1);
+
+	if (mem == NULL)
+		printf("Memoria induficiente\n");
+	else {
+		printf("Introduce el nombre del jugador:");
+		gets_s(mem->nombre_jugador,NUM);
+
+		mem->siguiente = cabecera;
+		cabecera = mem;
+	}
+	return cabecera;
+}
+
 
 /* Gesti�n de los datos de nombre y puntuaci�n de jugadores */
 /* Desarrollado por Celia Torrecillas */
