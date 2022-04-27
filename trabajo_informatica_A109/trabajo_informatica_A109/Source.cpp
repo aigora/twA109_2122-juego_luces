@@ -103,7 +103,6 @@ nodo* cabecera = NULL;
 
 	} while (opc != 6);
 	
-	return 0;
 }
 int menu(void)
 {
