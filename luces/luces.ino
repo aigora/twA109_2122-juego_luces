@@ -60,7 +60,7 @@ void loop() {
   Serial.print('\n');
 
   /* envío de los datos de la secuencia al puerto serie: */
-  if(Serial.available()<0){
+  if(Serial.available()>0){
     String str=Serial.readStringUntil('\n');
 
     if(str.compareTo("GET_SECUENCIA")==0){
