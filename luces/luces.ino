@@ -48,6 +48,7 @@ void loop() {
         delay(100);
 
         secuencia[j]=(i+1);
+        Serial.print(secuencia[j]);
       }
       
       else{
@@ -56,6 +57,7 @@ void loop() {
 
     }
   } // fin de la secuencia de luces
+  Serial.print('\n');
 
   /* envío de los datos de la secuencia al puerto serie: */
   if(Serial.available()<0){
