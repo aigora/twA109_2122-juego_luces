@@ -39,7 +39,7 @@ int puntaje(int);
 bool game_over(int);
 int get_secuencia(Serial*,char*);
 int*transform_secuencia(char*);
-int*get_secuencia_jugador(void);
+//void get_secuencia_jugador(int*);
 
 void main() {
 
@@ -151,11 +151,12 @@ void ficheros(void) {
 	;
 }
 
-/* Gestiona las secuencias de luces en cada nivel */
-/* Desarrollado por Am�lie Nader */
+/* Funcion principal de las luces*/
+/* Desarrollado por Amelie Nader */
 void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int puntuacion_total) {
 	int*s=(int*)malloc(sizeof(int));
 	int bytes = 0;
+	int* s_jugador = (int*)malloc(sizeof(int) * DIM);
 	int*puntuacion_nivel=(int*)malloc(sizeof(int));
 	char mensaje_recibido[MAX_BUFFER];
 
@@ -165,6 +166,7 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 	do {
 		bytes=get_secuencia(Arduino,mensaje_recibido);
 		Sleep(T);
+
 	}while(bytes!=-1||bytes!=0);
 
 	/*while(Arduino->IsConnected()){
@@ -260,26 +262,23 @@ int*transform_secuencia(char*mensaje_recibido){
 }
 
 /* crea un vector a partir de las teclas pulsadas por el jugador */
-int*get_secuencia_jugador(void){
+void get_secuencia_jugador(int*s_jugador) {
 
-	int s_jugador[DIM];
-	int*i=(int*)malloc(sizeof(int));
-	char*t=(char*)malloc(sizeof(char));
+	int i = 0;
+	char t;
 
 	printf("\n repita la secuencia de luces en el teclado . . . \n");
-	for(*i=0;*i<DIM;*i++){
+	for(i=0;i<DIM;i++){
 		scanf_s("%c",&t);
 
-		if(*t=='A'||*t=='a') s_jugador[*i]=1;
-		if(*t=='W'||*t=='w') s_jugador[*i]=2;
-		if(*t=='S'||*t=='s') s_jugador[*i]=3;
-		if(*t=='D'||*t=='d') s_jugador[*i]=4;
+		if(t=='A'||t=='a') s_jugador[i]=1;
+		if(t=='W'||t=='w') s_jugador[i]=2;
+		if(t=='S'||t=='s') s_jugador[i]=3;
+		if(t=='D'||t=='d') s_jugador[i]=4;
 
 		else{
-			s_jugador[*i]=0;
+			s_jugador[i]=0;
 		}
 	}
 
-	free(i);free(t);
-	return s_jugador;
 }

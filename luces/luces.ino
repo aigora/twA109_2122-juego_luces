@@ -15,7 +15,7 @@ void setup() {
     ;
   }
 
-  Serial.println("INICIANDO PROGRAMA . . .");
+  //Serial.println("INICIANDO PROGRAMA . . .");
   
   pinMode(led1,OUTPUT);
   pinMode(led2,OUTPUT);
@@ -26,10 +26,19 @@ void setup() {
   //digitalWrite(led2,HIGH);
   //digitalWrite(led3,HIGH);
   //digitalWrite(led4,HIGH);
+
+  String start=Serial.readStringUntil('\n');
+  while(start.compareTo("START")!=0){
+    start=Serial.readStringUntil('\n');
+  }
+
+  Serial.print("COMENZANDO JUEGO . . .");
+  delay(5000);
   
 }
 
 void loop() {
+  
   int r;
   int i=0;
   int j=0;
@@ -80,7 +89,7 @@ void loop() {
     }
   }
 
-  /* espera 5 segundos hasta iniciar el siguiente nivel */
+  /* espera hasta iniciar el siguiente nivel */
   delay(pausa);
   
 }
