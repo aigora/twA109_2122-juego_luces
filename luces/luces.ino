@@ -57,7 +57,7 @@ void loop() {
 
     }
   } // fin de la secuencia de luces
-  Serial.print('\n');
+  //Serial.print('\n');
 
   /* envío de los datos de la secuencia al puerto serie: */
   if(Serial.available()>0){
