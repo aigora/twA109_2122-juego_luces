@@ -14,6 +14,7 @@
 #define MAX_BUFFER 300
 #define PAUSA_MS 500
 #define PAUSA 5000
+#define T 1000
 #define PUNTOS 100
 #define NUM 50
 
@@ -36,15 +37,14 @@ void control_luces(Serial*,int*,int*,int);
 int compara(int*, int*);
 int puntaje(int);
 bool game_over(int);
-char* get_secuencia(Serial*);
+int get_secuencia(Serial*,char*);
 int*transform_secuencia(char*);
 int*get_secuencia_jugador(void);
 
 void main() {
 
 	Serial* Arduino;
-	char*puerto=(char*)malloc(5*sizeof(char));
-	puerto = "COM3";
+	char puerto[] = "COM3";
 
 	setlocale(LC_ALL, "es-ES");
 
@@ -57,12 +57,15 @@ void main() {
 
 	*puntuacion_total=0; // puntos iniciales
 
-	/* el juego se ejecuta indefinidamente hasta que el jugador falle */
-	do{
-		control_luces(Arduino,secuencia_luces,secuencia_jugador,*puntuacion_total);
-	}while(!game_over);
+	control_luces(Arduino, secuencia_luces, secuencia_jugador, *puntuacion_total);
 
-	free(puerto);
+	/* el juego se ejecuta indefinidamente hasta que el jugador falle */
+	/*do{
+		control_luces(Arduino,secuencia_luces,secuencia_jugador,*puntuacion_total);
+	}while(!game_over);*/
+
+	//control_luces(Arduino);
+
 	free(opcion_menu);
 	free(secuencia_luces);
 	free(secuencia_jugador);
@@ -152,11 +155,20 @@ void ficheros(void) {
 /* Desarrollado por Am�lie Nader */
 void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int puntuacion_total) {
 	int*s=(int*)malloc(sizeof(int));
+	int bytes = 0;
 	int*puntuacion_nivel=(int*)malloc(sizeof(int));
-	char*mensaje_recibido;
+	char mensaje_recibido[MAX_BUFFER];
 
-	while(Arduino->IsConnected()==TRUE){
-		mensaje_recibido=get_secuencia(Arduino);
+	while(!Arduino->IsConnected()){;}
+
+	/* imprime en pantalla el mensaje recibido para comprobar si funciona */
+	do {
+		bytes=get_secuencia(Arduino,mensaje_recibido);
+		Sleep(T);
+	}while(bytes!=-1||bytes!=0);
+
+	/*while(Arduino->IsConnected()){
+		//mensaje_recibido=get_secuencia(Arduino);
 		secuencia_luces=transform_secuencia(mensaje_recibido);
 		secuencia_jugador=get_secuencia_jugador();
 	
@@ -172,11 +184,10 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 		} // consigue puntos por acertar
 
 		Sleep(PAUSA);
-	}
+	}*/
 
 	free(s);
 	free(puntuacion_nivel);
-	free(mensaje_recibido);
 }
 
 /* Compara secuencias, devuelve 1 si son iguales, 0 si distintas */
@@ -206,19 +217,28 @@ bool game_over(int s){
 
 /* función que obtiene el valor de la secuencia de luces desde el arduino,
  envía un mensaje por puerto serie, el Arduino devuelve un mensaje con los valores */
-char*get_secuencia(Serial*Arduino){
+int get_secuencia(Serial*Arduino,char*mensaje_recibido){
+	int bytes,total=0;
 
-	char*mensaje_enviar=(char*)malloc(MAX_BUFFER*sizeof(char));
-	mensaje_enviar="GET_SECUENCIA\n";
-	char*mensaje_recibido;
-
-	Arduino->WriteData(mensaje_enviar,sizeof(char)*MAX_BUFFER);
+	while(!Arduino->WriteData((char*)"GET_SECUENCIA\n",MAX_BUFFER*sizeof(char))){
+		;
+	}
 	Sleep(PAUSA_MS);
-	Arduino->ReadData(mensaje_recibido,sizeof(char)*MAX_BUFFER-1);
 
-	free(mensaje_enviar);
+	bytes=Arduino->ReadData(mensaje_recibido,sizeof(char)*MAX_BUFFER-1);
+	while(bytes>0){
+		Sleep(PAUSA_MS);
+		total+=bytes;
+		bytes=Arduino->ReadData(mensaje_recibido+total,sizeof(char)*MAX_BUFFER-1);
+	}
 	
-	return mensaje_recibido;
+	if(total>0){
+		printf("\nbytes recibidos: %d\n",total);
+		mensaje_recibido[total-1]='\0';
+		printf("Mensaje recibido: %s\n",mensaje_recibido);
+	}
+
+	return total;
 }
 
 /* convierte el vector enviado por arduino en un vector numérico con los valores */
