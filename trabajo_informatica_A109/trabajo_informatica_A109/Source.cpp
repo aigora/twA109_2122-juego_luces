@@ -30,6 +30,7 @@ typedef struct elemento nodo;
 
 
 void menu(int);
+void start(Serial*);
 int menu(void);
 nodo* alta(nodo*);
 void ficheros(void);
@@ -57,6 +58,7 @@ void main() {
 
 	*puntuacion_total=0; // puntos iniciales
 
+	start(Arduino);
 	control_luces(Arduino, secuencia_luces, secuencia_jugador, *puntuacion_total);
 
 	/* el juego se ejecuta indefinidamente hasta que el jugador falle */
@@ -126,6 +128,14 @@ int menu(void)
 
 }
 
+/* Envía la orden para iniciar el juego */
+void start(Serial*Arduino) {
+	;
+	while (!Arduino->WriteData((char*)"START\n", MAX_BUFFER * sizeof(char))) {
+		;
+	}
+}
+
 nodo* alta(nodo* cabecera)
 {
 	nodo* mem;
@@ -143,7 +153,6 @@ nodo* alta(nodo* cabecera)
 	}
 	return cabecera;
 }
-
 
 /* Gesti�n de los datos de nombre y puntuaci�n de jugadores */
 /* Desarrollado por Celia Torrecillas */
@@ -225,7 +234,7 @@ int get_secuencia(Serial*Arduino,char*mensaje_recibido){
 	while(!Arduino->WriteData((char*)"GET_SECUENCIA\n",MAX_BUFFER*sizeof(char))){
 		;
 	}
-	Sleep(PAUSA_MS);
+	//Sleep(PAUSA_MS);
 
 	bytes=Arduino->ReadData(mensaje_recibido,sizeof(char)*MAX_BUFFER-1);
 	while(bytes>0){

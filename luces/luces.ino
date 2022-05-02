@@ -31,8 +31,12 @@ void setup() {
   while(start.compareTo("START")!=0){
     start=Serial.readStringUntil('\n');
   }
-
-  Serial.print("COMENZANDO JUEGO . . .");
+  
+  digitalWrite(led1,HIGH);
+  digitalWrite(led2,HIGH);
+  digitalWrite(led3,HIGH);
+  digitalWrite(led4,HIGH);
+  //Serial.print("COMENZANDO JUEGO . . .");
   delay(5000);
   
 }
@@ -75,6 +79,10 @@ void loop() {
   /* envío de los datos de la secuencia al puerto serie: */
   if(Serial.available()>0){
     String str=Serial.readStringUntil('\n');
+
+    while(str!="GET_SECUENCIA"){
+      str=Serial.readStringUntil('\n');
+    }
 
     if(str.compareTo("GET_SECUENCIA")==0){
 
