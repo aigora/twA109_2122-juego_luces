@@ -48,7 +48,7 @@ void loop() {
         delay(100);
 
         secuencia[j]=(i+1);
-        Serial.print(secuencia[j]);
+        //Serial.print(secuencia[j]);
       }
       
       else{
