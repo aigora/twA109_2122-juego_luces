@@ -9,6 +9,10 @@
 #define led3 11
 #define led4 12
 
+#define led5r 3
+#define led5g 4
+#define led5b 5
+
 void setup() {
   Serial.begin(9600);
   while(!Serial){
@@ -18,6 +22,9 @@ void setup() {
   pinMode(led2,OUTPUT);
   pinMode(led3,OUTPUT);
   pinMode(led4,OUTPUT);
+  pinMode(led5r,OUTPUT);
+  pinMode(led5g,OUTPUT);
+  pinMode(led5b,OUTPUT);
 
   //digitalWrite(led1,HIGH);
   //digitalWrite(led2,HIGH);
@@ -34,6 +41,10 @@ void loop() {
   int pausa=5000; // tiempo entre niveles
   int leds[]={led1,led2,led3,led4};
   int secuencia[]={0,0,0,0,0};
+
+  digitalWrite(led5r,0);
+  digitalWrite(led5g,0);
+  digitalWrite(led5b,0);
 
   /* bucle que genera la secuencia, se repite infinitas veces */
   for(j=0;j<n;j++){
@@ -59,11 +70,18 @@ void loop() {
   } // fin de la secuencia de luces
   //Serial.print('\n');
 
+  digitalWrite(led5r,255);
+  digitalWrite(led5g,0);
+  digitalWrite(led5b,0);
+
   /* envío de los datos de la secuencia al puerto serie: */
   if(Serial.available()>0){
     String str=Serial.readStringUntil('\n');
 
     if(str.compareTo("GET_SECUENCIA")==0){
+      digitalWrite(led5r,0);
+      digitalWrite(led5g,255);
+      digitalWrite(led5b,0);
       str="VALORES: ";
       for(i=0;i<sizeof(secuencia)/sizeof(int);i++){
         str.concat(secuencia[i]);
@@ -74,6 +92,7 @@ void loop() {
       Serial.println("COMANDO DESCONOCIDO");
     }
   }
+  
 
   /* espera 5 segundos hasta iniciar el siguiente nivel */
   delay(pausa);
