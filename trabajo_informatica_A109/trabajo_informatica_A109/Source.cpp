@@ -95,6 +95,8 @@ void menu(int opc_menu)
 {
 nodo* cabecera = NULL;
 	int opc;
+	int njugadores;
+	Jugador* jugadores;
 	do
 	{
 		opc = menu();
@@ -127,7 +129,6 @@ nodo* cabecera = NULL;
 	} while (opc != 6);
 
 	crear_fichero_txt(jugadores, njugadores);
-    return 0;
 	
 }
 
@@ -253,25 +254,6 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 		Sleep(T);
 
 	}while(bytes!=-1||bytes!=0);
-
-	/*while(Arduino->IsConnected()){
-		//mensaje_recibido=get_secuencia(Arduino);
-		secuencia_luces=transform_secuencia(mensaje_recibido);
-		secuencia_jugador=get_secuencia_jugador();
-	
-		*s=compara(secuencia_luces, secuencia_jugador);
-
-		if(game_over(*s)){
-			break;
-		} // termina el juego
-
-		else {
-			*puntuacion_nivel=puntaje(*s);
-			puntuacion_total+=*puntuacion_nivel;
-		} // consigue puntos por acertar
-
-		Sleep(PAUSA);
-	}*/
 
 	free(s);
 	free(puntuacion_nivel);
