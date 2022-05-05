@@ -95,8 +95,8 @@ void menu(int opc_menu)
 {
 nodo* cabecera = NULL;
 	int opc;
-	int njugadores;
-	Jugador* jugadores;
+	int njugadores = 0;
+	Jugador jugadores;
 	do
 	{
 		opc = menu();
@@ -104,13 +104,13 @@ nodo* cabecera = NULL;
 		
 		{
 	case 1:
-		njugadores = alta_jugador(jugadores, njugadores);
-        crear_fichero_txt(jugadores, njugadores);
+		njugadores = alta_jugador(&jugadores, njugadores);
+        crear_fichero_txt(&jugadores, njugadores);
 		break;
 	case 2:
 		break;
 	case 3:
-		listado_jugadores(jugadores, njugadores);
+		listado_jugadores(&jugadores, njugadores);
             break;
 		break;
 	case 4:
@@ -128,7 +128,7 @@ nodo* cabecera = NULL;
 
 	} while (opc != 6);
 
-	crear_fichero_txt(jugadores, njugadores);
+	crear_fichero_txt(&jugadores, njugadores);
 	
 }
 
