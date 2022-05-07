@@ -95,6 +95,8 @@ void menu(int opc_menu)
 {
 nodo* cabecera = NULL;
 	int opc;
+	int njugadores;
+	Jugador*jugadores;
 	do
 	{
 		opc = menu();
@@ -127,7 +129,6 @@ nodo* cabecera = NULL;
 	} while (opc != 6);
 
 	crear_fichero_txt(jugadores, njugadores);
-    return 0;
 	
 }
 
@@ -288,7 +289,7 @@ int compara(int* s1, int* s2) {
 			return 0;
 		}
 	}
-	
+
 	free(i);
 	return 1;
 }
