@@ -79,7 +79,7 @@ void loop() {
     }
 
     if(str.compareTo("GET_SECUENCIA")==0){
-      str="VALORES: ";
+      str="";
       for(i=0;i<sizeof(secuencia)/sizeof(int);i++){
         str.concat(secuencia[i]);
       }
