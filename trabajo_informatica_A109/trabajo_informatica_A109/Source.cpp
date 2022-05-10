@@ -372,19 +372,24 @@ void get_secuencia_jugador(int s_jugador[DIM]) {
 
 		if(t=='A'||t=='a'){ // rojo
 			 s_jugador[i]=1;
+			 fflush(stdin); fflush(stdout);
 		}
 		else if(t=='W'||t=='w'){ // verde
 			s_jugador[i]=2;
+			fflush(stdin); fflush(stdout);
 		}
-		else if(t=='S'||t=='s'){ // azul
+		else if(t=='D'||t=='d'){ // azul
 			s_jugador[i]=3;
+			fflush(stdin); fflush(stdout);
 		}
-		else if(t=='D'||t=='d'){
-			s_jugador[i]=4; // blanco
+		else if(t=='S'||t=='s'){ // blanco
+			s_jugador[i]=4;
+			fflush(stdin); fflush(stdout);
 		}
 
 		else{
 			s_jugador[i]=0;
+			fflush(stdin); fflush(stdout);
 		}
 
 		printf("%d",s_jugador[i]);
