@@ -39,7 +39,7 @@ typedef struct
 void menu(int);
 void start(Serial*);
 void continuar(Serial*);
-int menu(void);
+int opciones(void);
 void control_luces(Serial*,int*,int*,int);
 int compara(int*, int*);
 void puntaje(int,int);
@@ -101,7 +101,7 @@ nodo* cabecera = NULL;
 
 	do
 	{
-		opc = menu();
+		opc = opciones();
 		switch (opc)
 		
 		{
@@ -134,7 +134,7 @@ nodo* cabecera = NULL;
 	
 }
 
-int menu(void)
+int opciones(void)
 {
 	int opc_menu;
 	char intro;
