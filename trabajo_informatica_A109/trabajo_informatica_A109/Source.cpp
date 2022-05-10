@@ -49,7 +49,7 @@ void listado_jugadores(Jugador[], int);
 int  alta_jugador(Jugador[], int);
 void crear_fichero_txt(Jugador[], int);
 int leer_fichero_txt(Jugador[]);
-//void get_secuencia_jugador(int*);
+void get_secuencia_jugador(int*);
 
 void main() {
 
