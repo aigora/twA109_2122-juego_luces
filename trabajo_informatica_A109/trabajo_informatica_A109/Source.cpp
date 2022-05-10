@@ -53,7 +53,7 @@ void get_secuencia_jugador(int*);
 
 void main() {
 
-	 Jugador jugadores[MAX];
+	Jugador jugadores[MAX];
     int njugadores = 0;
     int opcion;
 
