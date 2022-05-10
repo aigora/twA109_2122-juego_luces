@@ -97,6 +97,7 @@ nodo* cabecera = NULL;
 	int opc;
 	int njugadores = 0;
 	Jugador*jugadores;
+
 	do
 	{
 		opc = menu();
