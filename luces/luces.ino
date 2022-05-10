@@ -85,12 +85,29 @@ void loop() {
       }
       Serial.println(str);
     }
-    else{
-      Serial.println("COMANDO DESCONOCIDO");
-    }
+//    else{
+//      Serial.println("COMANDO DESCONOCIDO");
+//    }
   }
 
-  /* espera hasta iniciar el siguiente nivel */
+  /* enciende todas para indicar periodo de espera */
+  digitalWrite(led1,LOW);
+  digitalWrite(led2,LOW);
+  digitalWrite(led3,LOW);
+  digitalWrite(led4,LOW);
+
+  /* espera la señal iniciar el siguiente nivel */
+  String seguir=Serial.readStringUntil('\n');
+
+  while(seguir!="CONTINUAR"){
+    seguir=Serial.readStringUntil('\n');
+  }
+
+  digitalWrite(led1,HIGH);
+  digitalWrite(led2,HIGH);
+  digitalWrite(led3,HIGH);
+  digitalWrite(led4,HIGH);
+  
   delay(pausa);
   
 }

@@ -38,10 +38,11 @@ typedef struct
 
 void menu(int);
 void start(Serial*);
+void continuar(Serial*);
 int menu(void);
 void control_luces(Serial*,int*,int*,int);
 int compara(int*, int*);
-int puntaje(int);
+void puntaje(int,int);
 bool game_over(int);
 int get_secuencia(Serial*,char*);
 void transform_secuencia(char*,int*);
@@ -73,7 +74,7 @@ void main() {
 
 	*puntuacion_total=0; // puntos iniciales
 
-	start(Arduino);
+	//start(Arduino);
 	control_luces(Arduino, secuencia_luces, secuencia_jugador, *puntuacion_total);
 
 	/* el juego se ejecuta indefinidamente hasta que el jugador falle */
@@ -160,6 +161,15 @@ void start(Serial*Arduino) {
 	}
 }
 
+/* envia señal para pasar de nivel,
+el arduino no vuelve al inicio de void loop() hasta recibir esto*/
+void continuar(Serial*Arduino){
+	while(!Arduino->WriteData((char*)"CONTINUAR\n",MAX_BUFFER*sizeof(char))){
+		;
+	}
+	Sleep(PAUSA_MS);
+}
+
 int alta_jugador(Jugador a[], int n)
 {
     if (n < MAX)
@@ -243,13 +253,15 @@ void listado_jugadores(Jugador a[], int n)
 void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int puntuacion_total) {
 	int*s=(int*)malloc(sizeof(int));
 	int bytes = 0;
+	int puntuacion_nivel = 0;
 	int* s_jugador = (int*)malloc(sizeof(int) * DIM);
-	int*puntuacion_nivel=(int*)malloc(sizeof(int));
 	char mensaje_recibido[MAX_BUFFER];
+
+	start(Arduino);
 
 	while(!Arduino->IsConnected()){;}
 
-	/* imprime en pantalla el mensaje recibido para comprobar si funciona */
+	/* bucle principal */
 	do {
 		bytes=get_secuencia(Arduino,mensaje_recibido);
 		Sleep(T);
@@ -257,36 +269,25 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 			transform_secuencia(mensaje_recibido,s);
 			Sleep(PAUSA_MS);
 
-			//get_secuencia_jugador(s_jugador);
-			/*if(compara(s,s_jugador)==1){
+			get_secuencia_jugador(s_jugador);
+			
+			if(compara(s,s_jugador)==1){
 				printf("\nacertaste\n");
 			}
-			else printf("\nfallaste\n");*/
+			else printf("\nfallaste\n");
+
+			puntaje(compara(s,s_jugador),puntuacion_nivel);
+			puntuacion_total += puntuacion_nivel;
+			printf("\npuntuacion: %d\n",puntuacion_nivel);
+
+			printf("\nsiguiente nivel:\n");
+			continuar(Arduino);
 		}
 
 	}while(Arduino->IsConnected());
 
-	/*while(Arduino->IsConnected()){
-		//mensaje_recibido=get_secuencia(Arduino);
-		secuencia_luces=transform_secuencia(mensaje_recibido);
-		secuencia_jugador=get_secuencia_jugador();
-	
-		*s=compara(secuencia_luces, secuencia_jugador);
-
-		if(game_over(*s)){
-			break;
-		} // termina el juego
-
-		else {
-			*puntuacion_nivel=puntaje(*s);
-			puntuacion_total+=*puntuacion_nivel;
-		} // consigue puntos por acertar
-
-		Sleep(PAUSA);
-	}*/
-
 	free(s);
-	free(puntuacion_nivel);
+
 }
 
 /* Compara secuencias, devuelve 1 si son iguales, 0 si distintas */
@@ -305,10 +306,9 @@ int compara(int* s1, int* s2) {
 	return 1;
 }
 
-/* toma el resultado de la función comparar, devuelve puntos si es 1 */
-int puntaje(int s){
-	if(s==1) return PUNTOS;
-	else return 0;
+/* añade puntos si el resultado de la funcion comparar era 1 */
+void puntaje(int s,int puntos){
+	if(s==1) puntos+=PUNTOS;
 }
 
 /* toma el resultado de la función comparar, termina el juego si es 0 */
