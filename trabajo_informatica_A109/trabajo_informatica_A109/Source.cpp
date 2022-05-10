@@ -253,8 +253,18 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 	do {
 		bytes=get_secuencia(Arduino,mensaje_recibido);
 		Sleep(T);
+		if(bytes==7){
+			transform_secuencia(mensaje_recibido,s);
+			Sleep(PAUSA_MS);
 
-	}while(bytes!=-1||bytes!=0);
+			//get_secuencia_jugador(s_jugador);
+			/*if(compara(s,s_jugador)==1){
+				printf("\nacertaste\n");
+			}
+			else printf("\nfallaste\n");*/
+		}
+
+	}while(Arduino->IsConnected());
 
 	/*while(Arduino->IsConnected()){
 		//mensaje_recibido=get_secuencia(Arduino);
@@ -352,33 +362,35 @@ void get_secuencia_jugador(int s_jugador[DIM]) {
 
 	int i = 0;
 	char t='0';
+	char intro;
 
 	printf("\n repita la secuencia en el teclado . . . \n");
 
 	for(i=0;i<DIM;i++){
 
-		scanf_s("%c",&t);
+		scanf_s("%c",&t,1);
 
-		if(t=='A'||t=='a'){
+		if(t=='A'||t=='a'){ // rojo
 			 s_jugador[i]=1;
 		}
-		else if(t=='W'||t=='w'){
+		else if(t=='W'||t=='w'){ // verde
 			s_jugador[i]=2;
 		}
-		else if(t=='S'||t=='s'){
+		else if(t=='S'||t=='s'){ // azul
 			s_jugador[i]=3;
 		}
 		else if(t=='D'||t=='d'){
-			s_jugador[i]=4;
+			s_jugador[i]=4; // blanco
 		}
 
 		else{
 			s_jugador[i]=0;
 		}
-	}
-	fflush(stdin);
 
-	printf("%d",s_jugador[i]);
-	fflush(stdout);
+		printf("%d",s_jugador[i]);
+
+		fflush(stdin);
+	}
+	scanf_s("%c",&intro,1);
 
 }
