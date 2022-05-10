@@ -30,7 +30,7 @@ void setup() {
   digitalWrite(led2,HIGH);
   digitalWrite(led3,HIGH);
   digitalWrite(led4,HIGH);
-  //Serial.print("COMENZANDO JUEGO . . .");
+
   delay(5000);
   
 }
@@ -51,7 +51,7 @@ void loop() {
 
     r=random(0,4);
     
-    for(i=0;i<sizeof(leds)/sizeof(int);i++){ // bucle que enciende una lucecita de las 4, se repite 5 veces dentro de este
+    for(i=0;i<sizeof(leds)/sizeof(int);i++){ // bucle que enciende un led aleatorio, se repite 5 veces
       if(r==i){
         digitalWrite(leds[i],LOW);
         delay(t);
@@ -68,7 +68,6 @@ void loop() {
 
     }
   } // fin de la secuencia de luces
-  //Serial.print('\n');
 
   /* envío de los datos de la secuencia al puerto serie: */
   if(Serial.available()>0){
