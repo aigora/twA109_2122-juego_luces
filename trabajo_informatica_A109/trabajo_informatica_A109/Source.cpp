@@ -56,7 +56,7 @@ void main() {
 
 	Jugador jugadores[MAX];
     int njugadores = 0;
-    int opcion;
+	int opcion = 0;
 
     njugadores = leer_fichero_txt(jugadores);
 
@@ -72,11 +72,15 @@ void main() {
 	int*secuencia_jugador=(int*)malloc(DIM*sizeof(int));
 	int*puntuacion_total=(int*)malloc(sizeof(int));
 
-	(*puntuacion_total)=0; // puntos iniciales
+	(*puntuacion_total)=0; // puntos iniciales, dato que se guardara en fichero
 
+	menu(opcion);
+	/*if (opcion == 5) {
+		control_luces(Arduino,secuencia_luces,secuencia_jugador,*puntuacion_total);
+	}*/
+
+	/* esta funcion se ejecuta en bucle hasta que termine el juego */
 	control_luces(Arduino, secuencia_luces, secuencia_jugador, *puntuacion_total);
-
-	/* el juego se ejecuta indefinidamente hasta que el jugador falle */
 
 	free(opcion_menu);
 	free(secuencia_luces);
@@ -112,6 +116,7 @@ nodo* cabecera = NULL;
 	case 4:
 		break;
 	case 5:
+		printf("\ncomenzando juego . . .\n");
 		break;
 	case 6:
 		printf("\n Programa finalizado\n");
@@ -121,6 +126,7 @@ nodo* cabecera = NULL;
 		break;
 
 		}
+		if (opc == 5)break;
 
 	} while (opc != 6);
 
@@ -278,13 +284,13 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 			puntuacion_total += puntuacion_nivel;
 			printf("\npuntuacion: %d\n",puntuacion_total);
 
-			printf("\nsiguiente nivel:\n");
-			continuar(Arduino);
-
 			if (game_over(c)) {
 				printf("\njuego terminado\n\n");
 				break;
 			}
+
+			printf("\nsiguiente nivel:\n");
+			continuar(Arduino);
 		}
 
 	}while(Arduino->IsConnected());
