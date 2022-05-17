@@ -114,18 +114,16 @@ nodo* cabecera = NULL;
 		njugadores = alta_jugador(jugadores, njugadores);
         crear_fichero_txt(jugadores, njugadores);
 		break;
+	
 	case 2:
-		break;
-	case 3:
 		listado_jugadores(jugadores, njugadores);
             break;
 		break;
-	case 4:
-		break;
-	case 5:
+	
+	case 3:
 		printf("\ncomenzando juego . . .\n");
 		break;
-	case 6:
+	case 4:
 		printf("\n Programa finalizado\n");
 		break;
 	default:
@@ -133,9 +131,8 @@ nodo* cabecera = NULL;
 		break;
 
 		}
-		if (opc == 5)break;
 
-	} while (opc != 6);
+	} while (opc != 4);
 
 	crear_fichero_txt(jugadores, njugadores);
 	
@@ -147,11 +144,9 @@ int opciones(void)
 	char intro;
 
 	printf("1.Dar de alta a un jugador: ");
-	printf("\n2.Dar de baja a un jugador: ");
-	printf("\n3.Jugadores que hay: ");
-	printf("\n4.Modificar el nombre de algún jugador: ");
-	printf("\n5.Comenzar a jugar");
-	printf("\n6.Salir del menu ");
+	printf("\n2.Jugadores que hay: ");
+	printf("\n3.Comenzar a jugar");
+	printf("\n4.Salir del menu ");
 
 	printf("\nPulsar alguna de las siguientes opciones: ");
 	scanf_s("%d", &opc_menu);
