@@ -35,22 +35,24 @@ typedef struct
     int puntuacion ;
 }Jugador;
 
-
+/* funciones del menú */
 void menu(int);
+int opciones(void);
+/* funciones del juego */
 void start(Serial*);
 void continuar(Serial*);
-int opciones(void);
 void control_luces(Serial*,int*,int*,int);
 int compara(int*, int*);
 int puntaje(int);
 bool game_over(int);
 int get_secuencia(Serial*,char*);
+void get_secuencia_jugador(int*);
 void transform_secuencia(char*,int*);
+/* funciones de ficheros */
 void listado_jugadores(Jugador[], int);
 int  alta_jugador(Jugador[], int);
 void crear_fichero_txt(Jugador[], int);
 int leer_fichero_txt(Jugador[]);
-void get_secuencia_jugador(int*);
 
 void main() {
 
@@ -82,9 +84,14 @@ void main() {
 	/* esta funcion se ejecuta en bucle hasta que termine el juego */
 	control_luces(Arduino, secuencia_luces, secuencia_jugador, *puntuacion_total);
 
+	// fin de la partida
+
+	// se guarda la puntuacion total junto con el nombre en fichero . . .
+
 	free(opcion_menu);
 	free(secuencia_luces);
 	free(secuencia_jugador);
+	free(puntuacion_total);
 
 }
 
@@ -168,84 +175,6 @@ void continuar(Serial*Arduino){
 		;
 	}
 	Sleep(PAUSA_MS);
-}
-
-int alta_jugador(Jugador a[], int n)
-{
-    if (n < MAX)
-    {
-        printf("Jugador=");
-        scanf_s("%s", a[n].nombre, TAM);
-        printf("Puntuación=");
-        scanf_s("%d", &a[n].puntuacion);
-        n++;
-    }
-    else
-        printf("No pueden juagar más jugadores\n");
-    return n;
-}
-
-/* Gesti�n de los datos de nombre y puntuaci�n de jugadores */
-/* Desarrollado por Celia Torrecillas */
-
-void crear_fichero_txt(Jugador a[], int n)
-{
-    FILE* fichero;
-    int i;
-    errno_t e;
-    e = fopen_s(&fichero, "Lista_jugadores.txt", "wt");
-    if (fichero == NULL)
-        printf("No se ha podido guardar la agenda\n");
-    else
-    {
-        for (i = 0; i < n; i++)
-        {
-            fprintf(fichero, "%s\n", a[i].nombre);
-            fprintf(fichero, "%d\n", a[i].puntuacion);
-        }
-        fclose(fichero);
-    }
-
-}
-
-int leer_fichero_txt(Jugador a[])
-{
-    FILE* fichero;
-    int n = 0;
-    errno_t e;
-    char* p;
-    e = fopen_s(&fichero, "Lista_jugadores.txt", "rt");
-    if (fichero == NULL)
-        printf("La agenda estaba vacía\n");
-    else
-    {
-        fgets(a[n].nombre, TAM, fichero);
-        while (!feof(fichero))
-        {
-            p = strchr(a[n].nombre, '\n'); // Sustituir el \n
-            *p = '\0';                   // por un \0
-
-            fscanf_s(fichero, "%d\n", &a[n].puntuacion);
-            n++;
-            fgets(a[n].nombre, TAM, fichero);
-        }
-        fclose(fichero);
-    }
-    return n;
-}
-
-void listado_jugadores(Jugador a[], int n)
-{
-    int i;
-
-    printf("\nLa lista de jugadores es:\n");
-    printf("\n=============================\n");
-    for (i = 0; i < n; i++)
-    {
-        printf("Jugador=%s\n", a[i].nombre);
-        printf("Puntuación=%d\n", a[i].puntuacion);
-        printf("==============\n");
-    }
 }
 
 /* Funcion principal de las luces*/
@@ -406,4 +335,82 @@ void get_secuencia_jugador(int s_jugador[DIM]) {
 	}
 	scanf_s("%c",&intro,1);
 
+}
+
+int alta_jugador(Jugador a[], int n)
+{
+    if (n < MAX)
+    {
+        printf("Jugador=");
+        scanf_s("%s", a[n].nombre, TAM);
+        printf("Puntuación=");
+        scanf_s("%d", &a[n].puntuacion);
+        n++;
+    }
+    else
+        printf("No pueden juagar más jugadores\n");
+    return n;
+}
+
+/* Gesti�n de los datos de nombre y puntuaci�n de jugadores */
+/* Desarrollado por Celia Torrecillas */
+
+void crear_fichero_txt(Jugador a[], int n)
+{
+    FILE* fichero;
+    int i;
+    errno_t e;
+    e = fopen_s(&fichero, "Lista_jugadores.txt", "wt");
+    if (fichero == NULL)
+        printf("No se ha podido guardar la agenda\n");
+    else
+    {
+        for (i = 0; i < n; i++)
+        {
+            fprintf(fichero, "%s\n", a[i].nombre);
+            fprintf(fichero, "%d\n", a[i].puntuacion);
+        }
+        fclose(fichero);
+    }
+
+}
+
+int leer_fichero_txt(Jugador a[])
+{
+    FILE* fichero;
+    int n = 0;
+    errno_t e;
+    char* p;
+    e = fopen_s(&fichero, "Lista_jugadores.txt", "rt");
+    if (fichero == NULL)
+        printf("La agenda estaba vacía\n");
+    else
+    {
+        fgets(a[n].nombre, TAM, fichero);
+        while (!feof(fichero))
+        {
+            p = strchr(a[n].nombre, '\n'); // Sustituir el \n
+            *p = '\0';                   // por un \0
+
+            fscanf_s(fichero, "%d\n", &a[n].puntuacion);
+            n++;
+            fgets(a[n].nombre, TAM, fichero);
+        }
+        fclose(fichero);
+    }
+    return n;
+}
+
+void listado_jugadores(Jugador a[], int n)
+{
+    int i;
+
+    printf("\nLa lista de jugadores es:\n");
+    printf("\n=============================\n");
+    for (i = 0; i < n; i++)
+    {
+        printf("Jugador=%s\n", a[i].nombre);
+        printf("Puntuación=%d\n", a[i].puntuacion);
+        printf("==============\n");
+    }
 }
