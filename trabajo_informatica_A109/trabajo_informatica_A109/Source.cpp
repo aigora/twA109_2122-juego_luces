@@ -36,7 +36,7 @@ typedef struct
 }Jugador;
 
 /* funciones del menú */
-void menu(int);
+void menu(int, Serial*, int*, int*, int);
 int opciones(void);
 /* funciones del juego */
 void start(Serial*);
@@ -76,17 +76,13 @@ void main() {
 
 	(*puntuacion_total)=0; // puntos iniciales, dato que se guardara en fichero
 
-	menu(opcion);
-	/*if (opcion == 5) {
-		control_luces(Arduino,secuencia_luces,secuencia_jugador,*puntuacion_total);
-	}*/
-
-	/* esta funcion se ejecuta en bucle hasta que termine el juego */
-	control_luces(Arduino, secuencia_luces, secuencia_jugador, *puntuacion_total);
+	/* el bucle principal del juego se activa dentro de esta funcion */
+	menu(opcion,Arduino,secuencia_luces,secuencia_jugador,*puntuacion_total);
 
 	// fin de la partida
 
 	// se guarda la puntuacion total junto con el nombre en fichero . . .
+	// poner funciones de ficheros AQUI
 
 	free(opcion_menu);
 	free(secuencia_luces);
@@ -97,7 +93,7 @@ void main() {
 
 /* Men� principal de la aplicaci�n */
 /* Desarrollado por Qingyun Xu */
-void menu(int opc_menu)
+void menu(int opc_menu, Serial* Arduino, int* secuencia_luces, int* secuencia_jugador, int puntuacion_total)
 {
 nodo* cabecera = NULL;
 	int opc;
@@ -117,11 +113,11 @@ nodo* cabecera = NULL;
 	
 	case 2:
 		listado_jugadores(jugadores, njugadores);
-            break;
 		break;
 	
 	case 3:
 		printf("\ncomenzando juego . . .\n");
+		control_luces(Arduino, secuencia_luces, secuencia_jugador, puntuacion_total);
 		break;
 	case 4:
 		printf("\n Programa finalizado\n");
@@ -129,9 +125,8 @@ nodo* cabecera = NULL;
 	default:
 		printf("\n Opcion incorrecta. Elija otra opcion.\n");
 		break;
-
 		}
-
+		
 	} while (opc != 4);
 
 	crear_fichero_txt(jugadores, njugadores);
@@ -181,9 +176,19 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 	int* s_jugador = (int*)malloc(sizeof(int) * DIM);
 	char mensaje_recibido[MAX_BUFFER];
 
+	//printf("\nInicializando Arduino . . .\n");
+	
+	/* no permite iniciar la partida si no está conectado el arduino */
+	if (!Arduino->IsConnected()) {
+		printf("ERROR: Conecta el Arduino al puerto COM3\n");
+		exit(1);
+	}
+	
 	start(Arduino);
 
-	while(!Arduino->IsConnected()){;}
+	/*while (!Arduino->IsConnected()) {
+		;
+	}*/
 
 	/* bucle principal */
 	do {
