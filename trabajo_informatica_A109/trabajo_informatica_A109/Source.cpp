@@ -32,12 +32,13 @@ typedef struct elemento nodo;
 typedef struct
 {
     char nombre[TAM];
-    int puntuacion ;
+    int puntuacion;
 }Jugador;
 
 /* funciones del menú */
 void menu(int, Serial*, int*, int*, int);
 int opciones(void);
+
 /* funciones del juego */
 void start(Serial*);
 void continuar(Serial*);
@@ -48,6 +49,7 @@ bool game_over(int);
 int get_secuencia(Serial*,char*);
 void get_secuencia_jugador(int*);
 void transform_secuencia(char*,int*);
+
 /* funciones de ficheros */
 void listado_jugadores(Jugador[], int);
 int  alta_jugador(Jugador[], int);
@@ -56,11 +58,11 @@ int leer_fichero_txt(Jugador[]);
 
 void main() {
 
-	Jugador jugadores[MAX];
-    int njugadores = 0;
+	//Jugador jugadores[MAX];
+    //int njugadores = 0;
 	int opcion = 0;
 
-    njugadores = leer_fichero_txt(jugadores);
+    //njugadores = leer_fichero_txt(jugadores); //Leer el fichero de texto
 
 	Serial* Arduino;
 	char puerto[] = "COM3";
@@ -97,8 +99,11 @@ void menu(int opc_menu, Serial* Arduino, int* secuencia_luces, int* secuencia_ju
 {
 nodo* cabecera = NULL;
 	int opc;
-	int njugadores = 0;
-	Jugador* jugadores = (Jugador*)malloc(sizeof(Jugador));
+	int njugadores;
+	Jugador jugadores[MAX];
+
+	njugadores = leer_fichero_txt(jugadores);//Leer el fichero de texto
+	//Jugador* jugadores = (Jugador*)malloc(sizeof(Jugador));
 
 	do
 	{
@@ -107,8 +112,8 @@ nodo* cabecera = NULL;
 		
 		{
 	case 1:
-		njugadores = alta_jugador(jugadores, njugadores);
-        crear_fichero_txt(jugadores, njugadores);
+		njugadores = alta_jugador(jugadores, njugadores); 
+        crear_fichero_txt(jugadores, njugadores); //Guardar datos en fichero
 		break;
 	
 	case 2:
@@ -129,7 +134,7 @@ nodo* cabecera = NULL;
 		
 	} while (opc != 4);
 
-	crear_fichero_txt(jugadores, njugadores);
+	crear_fichero_txt(jugadores, njugadores); //Guardar datos en fichero
 	
 }
 
@@ -145,7 +150,7 @@ int opciones(void)
 
 	printf("\nPulsar alguna de las siguientes opciones: ");
 	scanf_s("%d", &opc_menu);
-	scanf_s("%c", &intro);
+	scanf_s("%c", &intro,1);
 	return opc_menu;
 
 }
@@ -352,7 +357,7 @@ int alta_jugador(Jugador a[], int n)
     return n;
 }
 
-/* Gesti�n de los datos de nombre y puntuaci�n de jugadores */
+/* Gestion de los datos de nombre y puntuaci�n de jugadores */
 /* Desarrollado por Celia Torrecillas */
 
 void crear_fichero_txt(Jugador a[], int n)
@@ -383,7 +388,7 @@ int leer_fichero_txt(Jugador a[])
     char* p;
     e = fopen_s(&fichero, "Lista_jugadores.txt", "rt");
     if (fichero == NULL)
-        printf("La agenda estaba vacía\n");
+        printf("La agenda esta vacia\n");
     else
     {
         fgets(a[n].nombre, TAM, fichero);
@@ -409,8 +414,8 @@ void listado_jugadores(Jugador a[], int n)
     printf("\n=============================\n");
     for (i = 0; i < n; i++)
     {
-        printf("Jugador=%s\n", a[i].nombre);
-        printf("Puntuación=%d\n", a[i].puntuacion);
+        printf("Jugador= %s\n", a[i].nombre);
+        printf("Puntuacion= %d\n", a[i].puntuacion);
         printf("==============\n");
     }
 }
