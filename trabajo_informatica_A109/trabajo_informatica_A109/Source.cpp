@@ -18,7 +18,7 @@
 #define PUNTOS 100
 #define NUM 50
 #define TAM 50
-#define MAX 100
+#define MAX 50
 
 struct elemento
 {
@@ -42,7 +42,7 @@ int opciones(void);
 /* funciones del juego */
 void start(Serial*);
 void continuar(Serial*);
-void control_luces(Serial*,int*,int*,int);
+void control_luces(Serial*,int*,int*,int, Jugador[], int);
 int compara(int*, int*);
 int puntaje(int);
 bool game_over(int);
@@ -55,6 +55,8 @@ void listado_jugadores(Jugador[], int);
 int  alta_jugador(Jugador[], int);
 void crear_fichero_txt(Jugador[], int);
 int leer_fichero_txt(Jugador[]);
+int buscar_jugador(Jugador[], int, char const*);
+
 
 void main() {
 
@@ -94,12 +96,14 @@ void main() {
 }
 
 /* Men� principal de la aplicaci�n */
-/* Desarrollado por Qingyun Xu */
+/* Desarrollado por Qingyun Xu y Celia Torrecillas(un poco)*/
 void menu(int opc_menu, Serial* Arduino, int* secuencia_luces, int* secuencia_jugador, int puntuacion_total)
 {
 nodo* cabecera = NULL;
 	int opc;
+	char nombre_jugador[TAM];
 	int njugadores;
+	int n_jugador;
 	Jugador jugadores[MAX];
 
 	njugadores = leer_fichero_txt(jugadores);//Leer el fichero de texto
@@ -120,9 +124,19 @@ nodo* cabecera = NULL;
 		listado_jugadores(jugadores, njugadores);
 		break;
 	
-	case 3:
+	case 3: 
+		do {
+			printf("Que jugador eres?\n");
+			//gets_s(nombre_jugador, TAM);
+			scanf_s("%s", nombre_jugador, TAM);
+			n_jugador = buscar_jugador(jugadores, njugadores, nombre_jugador);
+
+		} while (n_jugador == 60);
+		//printf("El n del jugador es= %d", n_jugador);
+
 		printf("\ncomenzando juego . . .\n");
-		control_luces(Arduino, secuencia_luces, secuencia_jugador, puntuacion_total);
+		control_luces(Arduino, secuencia_luces, secuencia_jugador, puntuacion_total, jugadores, n_jugador);
+
 		break;
 	case 4:
 		printf("\n Programa finalizado\n");
@@ -174,7 +188,7 @@ void continuar(Serial*Arduino){
 
 /* Funcion principal de las luces*/
 /* Desarrollado por Amelie Nader */
-void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int puntuacion_total) {
+void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int puntuacion_total, Jugador a[], int n) {
 	int*s=(int*)malloc(sizeof(int));
 	int bytes = 0;
 	int puntuacion_nivel;
@@ -228,6 +242,8 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 		}
 
 	}while(Arduino->IsConnected());
+
+	a[n].puntuacion = puntuacion_total;
 
 	free(s);
 
@@ -422,3 +438,31 @@ void listado_jugadores(Jugador a[], int n)
         printf("==============\n");
     }
 }
+
+
+int buscar_jugador(Jugador a[], int n, char const *nombre)
+{
+	int d=0;
+	int i, valor, contador=0;
+
+	for ( i = 0; i < n; i++)
+	{
+		valor = strcmp(a[i].nombre, nombre) ;
+		//printf("%s\n", nombre);
+		//printf("%s\n", a[i].nombre);
+		if (valor == 0)
+			d = i;
+		else
+			contador++;
+	}
+	
+	if (contador == i)
+	{
+		printf("No hay un jugador llamado: %s \n",nombre);
+		d = 60;
+	}
+	//printf("%s\n",nombre);
+
+	return d;
+}
+
