@@ -1,1 +1,3 @@
-﻿  trabajo_informatica_A109.vcxproj -> C:\Users\admin\OneDrive\Documentos\GitHub\trabajo_informatica_A109\Debug\trabajo_informatica_A109.exe
+﻿  Source.cpp
+C:\Users\admin\OneDrive\Documentos\GitHub\trabajo_informatica_A109\trabajo_informatica_A109\Source.cpp(59,13): warning C4326: el tipo de valor devuelto de 'main' debe ser 'int' en lugar de 'void'
+  trabajo_informatica_A109.vcxproj -> C:\Users\admin\OneDrive\Documentos\GitHub\trabajo_informatica_A109\Debug\trabajo_informatica_A109.exe

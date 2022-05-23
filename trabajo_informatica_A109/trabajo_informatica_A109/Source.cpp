@@ -342,14 +342,17 @@ void get_secuencia_jugador(int s_jugador[DIM]) {
 
 }
 
+/* da de alta a jugadores*/
+/* Desarrollado por Celia Torrecillas */
 int alta_jugador(Jugador a[], int n)
 {
     if (n < MAX)
     {
         printf("Jugador=");
         scanf_s("%s", a[n].nombre, TAM);
-        printf("Puntuación=");
-        scanf_s("%d", &a[n].puntuacion);
+        //printf("Puntuación=");
+        //scanf_s("%d", &a[n].puntuacion);
+		a[n].puntuacion = 0;
         n++;
     }
     else
