@@ -135,6 +135,8 @@ nodo* cabecera = NULL;
 		//printf("El n del jugador es= %d", n_jugador);
 
 		printf("\ncomenzando juego . . .\n");
+		char intro;
+		scanf_s("%c", &intro,1);
 		control_luces(Arduino, secuencia_luces, secuencia_jugador, puntuacion_total, jugadores, n_jugador);
 
 		break;
@@ -228,6 +230,8 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 			else printf("\nfallaste\n");
 
 			puntuacion_nivel+=puntaje(c);
+			a[n].puntuacion = puntuacion_nivel;
+
 			printf("\npuntos obtenidos: %d\n", puntuacion_nivel);
 			puntuacion_total += puntuacion_nivel;
 			printf("\npuntuacion: %d\n",puntuacion_total);
@@ -242,9 +246,8 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 		}
 
 	}while(Arduino->IsConnected());
-
+	
 	a[n].puntuacion = puntuacion_total;
-
 	free(s);
 
 }
