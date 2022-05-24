@@ -197,7 +197,7 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 	int* s_jugador = (int*)malloc(sizeof(int) * DIM);
 	char mensaje_recibido[MAX_BUFFER];
 
-	Jugador jugadores[MAX];
+	//Jugador jugadores[MAX];
 
 	//printf("\nInicializando Arduino . . .\n");
 	
@@ -233,7 +233,7 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 
 			puntuacion_nivel+=puntaje(c);
 			a[n].puntuacion = puntuacion_nivel;
-			crear_fichero_txt(jugadores, njugadores);
+			crear_fichero_txt(a, njugadores);
 
 			printf("\npuntos obtenidos: %d\n", puntuacion_nivel);
 			puntuacion_total += puntuacion_nivel;
