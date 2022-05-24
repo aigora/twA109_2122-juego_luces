@@ -1,5 +1,5 @@
 celia
-22
+0
 Pato
 0
 Carlos
@@ -7,6 +7,6 @@ Carlos
 Sara
 0
 ame
-0
+100
 irene
 0

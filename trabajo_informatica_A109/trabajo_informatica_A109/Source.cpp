@@ -191,7 +191,7 @@ void continuar(Serial*Arduino){
 /* Funcion principal de las luces*/
 /* Desarrollado por Amelie Nader (y guardado en ficheros por Celia Torrecillas) */
 void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int puntuacion_total, Jugador a[], int n, int njugadores) {
-	int*s=(int*)malloc(sizeof(int));
+	int*s=(int*)malloc(sizeof(int)*DIM);
 	int bytes = 0;
 	int puntuacion_nivel;
 	int* s_jugador = (int*)malloc(sizeof(int) * DIM);
@@ -224,8 +224,8 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 
 			get_secuencia_jugador(s_jugador);
 
-			char intro;
-			scanf_s("%c", &intro, 1);
+			//char intro;
+			//scanf_s("%c", &intro, 1);
 
 			int c = compara(s, s_jugador);
 			
