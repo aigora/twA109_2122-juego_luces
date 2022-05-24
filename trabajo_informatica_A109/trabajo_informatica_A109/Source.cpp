@@ -42,7 +42,7 @@ int opciones(void);
 /* funciones del juego */
 void start(Serial*);
 void continuar(Serial*);
-void control_luces(Serial*,int*,int*,int, Jugador[], int);
+void control_luces(Serial*,int*,int*,int, Jugador[], int, int);
 int compara(int*, int*);
 int puntaje(int);
 bool game_over(int);
@@ -137,7 +137,7 @@ nodo* cabecera = NULL;
 		printf("\ncomenzando juego . . .\n");
 		char intro;
 		scanf_s("%c", &intro,1);
-		control_luces(Arduino, secuencia_luces, secuencia_jugador, puntuacion_total, jugadores, n_jugador);
+		control_luces(Arduino, secuencia_luces, secuencia_jugador, puntuacion_total, jugadores, n_jugador, njugadores);
 
 		break;
 	case 4:
@@ -189,13 +189,15 @@ void continuar(Serial*Arduino){
 }
 
 /* Funcion principal de las luces*/
-/* Desarrollado por Amelie Nader */
-void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int puntuacion_total, Jugador a[], int n) {
+/* Desarrollado por Amelie Nader (y guardado en ficheros por Celia Torrecillas) */
+void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int puntuacion_total, Jugador a[], int n, int njugadores) {
 	int*s=(int*)malloc(sizeof(int));
 	int bytes = 0;
 	int puntuacion_nivel;
 	int* s_jugador = (int*)malloc(sizeof(int) * DIM);
 	char mensaje_recibido[MAX_BUFFER];
+
+	Jugador jugadores[MAX];
 
 	//printf("\nInicializando Arduino . . .\n");
 	
@@ -231,6 +233,7 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 
 			puntuacion_nivel+=puntaje(c);
 			a[n].puntuacion = puntuacion_nivel;
+			crear_fichero_txt(jugadores, njugadores);
 
 			printf("\npuntos obtenidos: %d\n", puntuacion_nivel);
 			puntuacion_total += puntuacion_nivel;
