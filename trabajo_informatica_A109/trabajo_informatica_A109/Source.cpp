@@ -224,6 +224,9 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 
 			get_secuencia_jugador(s_jugador);
 
+			char intro;
+			scanf_s("%c", &intro, 1);
+
 			int c = compara(s, s_jugador);
 			
 			if(c==1){
