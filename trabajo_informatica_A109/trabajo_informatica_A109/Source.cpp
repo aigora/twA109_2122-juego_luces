@@ -98,6 +98,8 @@ void menu(int opc_menu, Serial* Arduino, int* secuencia_luces, int* secuencia_ju
 	int n_jugador;
 	Jugador jugadores[MAX];
 
+	bool gameover = false;
+
 	njugadores = leer_fichero_txt(jugadores);//Leer el fichero de texto
 	//Jugador* jugadores = (Jugador*)malloc(sizeof(Jugador));
 
@@ -130,7 +132,7 @@ void menu(int opc_menu, Serial* Arduino, int* secuencia_luces, int* secuencia_ju
 		char intro;
 		scanf_s("%c", &intro,1);
 		control_luces(Arduino, secuencia_luces, secuencia_jugador, puntuacion_total, jugadores, n_jugador, njugadores);
-
+		gameover = true;
 		break;
 	case 4:
 		printf("\n Programa finalizado\n");
@@ -140,7 +142,7 @@ void menu(int opc_menu, Serial* Arduino, int* secuencia_luces, int* secuencia_ju
 		break;
 		}
 		
-	} while (opc != 4);
+	} while (opc != 4&&(!gameover));
 
 	crear_fichero_txt(jugadores, njugadores); //Guardar datos en fichero
 	
@@ -239,8 +241,10 @@ void control_luces(Serial*Arduino,int*secuencia_luces,int*secuencia_jugador,int 
 				break;
 			}
 
-			printf("\nsiguiente nivel:\n");
-			continuar(Arduino);
+			if (!game_over(c)) {
+				printf("\nsiguiente nivel:\n");
+				continuar(Arduino);
+			}
 		}
 
 	}while(Arduino->IsConnected());
