@@ -99,7 +99,6 @@ void menu(int opc_menu, Serial* Arduino, int* secuencia_luces, int* secuencia_ju
 	Jugador jugadores[MAX];
 
 	njugadores = leer_fichero_txt(jugadores);//Leer el fichero de texto
-	//Jugador* jugadores = (Jugador*)malloc(sizeof(Jugador));
 
 	do
 	{
@@ -363,7 +362,14 @@ void get_secuencia_jugador(int s_jugador[DIM]) {
 /* Desarrollado por Celia Torrecillas y Qingyun Xu (un poco)*/
 int alta_jugador(Jugador a[], int n)
 {
-    if (n < MAX)
+	printf("Jugador=");
+	scanf_s("%s", a[n].nombre, TAM);
+	//printf("Puntuación=");
+	//scanf_s("%d", &a[n].puntuacion);
+	a[n].puntuacion = 0;
+	n++;
+
+    /*if (n < MAX)
     {
         printf("Jugador=");
         scanf_s("%s", a[n].nombre, TAM);
@@ -374,6 +380,7 @@ int alta_jugador(Jugador a[], int n)
     }
     else
         printf("No pueden juagar más jugadores\n");
+	*/
     return n;
 }
 
