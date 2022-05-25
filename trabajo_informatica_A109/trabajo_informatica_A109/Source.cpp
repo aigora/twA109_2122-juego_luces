@@ -20,14 +20,6 @@
 #define TAM 50
 #define MAX 50
 
-struct elemento
-{
-	char nombre_jugador[NUM];
-	int numero_jugador;
-	struct elemento* siguiente;
-
-};
-typedef struct elemento nodo;
 
 typedef struct
 {
@@ -99,7 +91,7 @@ void main() {
 /* Desarrollado por Qingyun Xu y Celia Torrecillas(un poco)*/
 void menu(int opc_menu, Serial* Arduino, int* secuencia_luces, int* secuencia_jugador, int puntuacion_total)
 {
-nodo* cabecera = NULL;
+
 	int opc;
 	char nombre_jugador[TAM];
 	int njugadores;
@@ -368,7 +360,7 @@ void get_secuencia_jugador(int s_jugador[DIM]) {
 }
 
 /* da de alta a jugadores*/
-/* Desarrollado por Celia Torrecillas */
+/* Desarrollado por Celia Torrecillas y Qingyun Xu (un poco)*/
 int alta_jugador(Jugador a[], int n)
 {
     if (n < MAX)
