@@ -12,3 +12,7 @@ irene
 200
 amelie
 300
+amelie
+0
+amelie
+0
